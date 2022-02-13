@@ -1,0 +1,29 @@
+[package]
+name = "mdbook-latex-pdf"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = ["latex", "pdf"]
+latex = []
+pdf = ["latex", "tectonic", "tectonic_bridge_core"]
+
+[dependencies]
+anyhow = "1.0.53"
+mdbook = "0.4.15"
+pulldown-cmark = "0.9.1"
+serde = { version = "1.0.135", features = ["derive"] }
+serde_derive = "1.0.135"
+tectonic = { version = "0.8.0", optional = true }
+tectonic_bridge_core = { version = "0.3.0", optional = true }
+regex = "1.5.4"
+clap = "3.0.12"
+walkdir = "2.3.2"
+resvg = "0.21.0"
+Inflector = "0.11.4"
+usvg = "0.21.0"
+tiny-skia = "0.6.2"
+serde_json = "1.0.78"
+structopt = "0.3.26"
+html5ever = "0.25.1"
+markup5ever_rcdom = "0.1.0"

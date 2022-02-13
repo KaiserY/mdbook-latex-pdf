@@ -1,0 +1,114 @@
+%% Packages and Settings
+\UseRawInputEncoding
+\documentclass[a4paper]{book}
+\usepackage[english]{babel}
+\usepackage{adjustbox}
+\usepackage{colortbl}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{graphbox}
+
+\usepackage{xltxtra,fontspec,xunicode}
+\usepackage[slantfont,boldfont]{xeCJK} % 允许斜体和粗体
+
+\setCJKmainfont{Noto Sans SC} % 设置缺省中文字体
+\setCJKmonofont{Noto Sans SC} % 设置等宽字体
+\setmainfont{Noto Sans} % 英文衬线字体
+\setmonofont{Noto Sans Mono} % 英文等宽字体
+\setsansfont{Noto Sans} % 英文无衬线字体
+\xeCJKDeclareSubCJKBlock{Hangul}{"1100 -> "11FF, "3130 -> "318F, "A960 -> "A97F, "AC00 -> "D7AF, "D7B0 -> "D7FF}
+\setCJKmainfont[Hangul]{Noto Sans KR}
+
+\usepackage[labelformat=empty,font=small,skip=0pt]{caption}
+
+\setlength{\parindent}{0pt}
+
+\setlength\abovecaptionskip{0.5\baselineskip}
+\setlength\belowcaptionskip{0pt}
+
+\renewcommand{\numberline}[1]{#1~}
+
+\usepackage{float}
+\floatplacement{figure}{H}
+
+% https://tex.stackexchange.com/questions/219174/issue-with-page-breaks-before-section-and-toc-hyperlinks?rq=1
+\usepackage{titlesec}
+\usepackage{hyperref}
+\newcommand{\sectionbreak}{\clearpage}
+
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries}{}{0pt}{\Large}
+
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{tabu}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{framed}
+\usepackage{quoting}
+\usepackage{array}
+
+\definecolor{bgcode}{HTML}{F6F7F6}
+
+\usepackage{minted}
+\setminted{bgcolor=bgcode}
+
+\newcommand{\PreserveBackslash}[1]{\let\temp=\\#1\let\\=\temp}
+\newcolumntype{C}[1]{>{\PreserveBackslash\centering}m{#1}}
+\newcolumntype{R}[1]{>{\PreserveBackslash\raggedleft}p{#1}}
+\newcolumntype{L}[1]{>{\PreserveBackslash\raggedright}p{#1}}
+
+% https://tex.stackexchange.com/questions/143015/different-column-number-in-rows
+\usepackage{booktabs,multirow,tabularx}% http://ctan.org/pkg/{booktabs,multirow,tabularx}
+\newcommand{\makecell}[1]{\begin{tabular}{c}#1\end{tabular}}
+
+% https://tex.stackexchange.com/questions/823/remove-ugly-borders-around-clickable-cross-references-and-hyperlinks
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+%% Unicode rules.
+% https://tex.stackexchange.com/questions/215520/output-from-tree-command-in-a-listing
+\usepackage{newunicodechar}
+\newunicodechar{└}{{\smash{\raisebox{0.5ex}{\rule{0.5pt}{\dimexpr\baselineskip-1.5ex}}}\raisebox{0.5ex}{\rule{1ex}{0.5pt}}}}
+\newunicodechar{─}{{\raisebox{0.5ex}{\rule{1.5ex}{0.5pt}}}}
+\newunicodechar{├}{{\smash{\raisebox{-1ex}{\rule{0.5pt}{\baselineskip}}}\raisebox{0.5ex}{\rule{1ex}{0.5pt}}}}
+\newunicodechar{’}{{'}}
+\newunicodechar{“}{{"}}
+\newunicodechar{”}{{"}}
+
+\definecolor{bgquote}{RGB}{241,246,249}
+
+\colorlet{shadecolor}{bgquote}
+\newenvironment{shadedquotation}
+ {\begin{shaded*}
+  \quoting[leftmargin=0pt, vskip=0pt]
+ }
+ {\endquoting
+ \end{shaded*}
+}
+
+%% Title and Author (retreived from book.toml)
+\title{}
+\author{}
+\date{}
+
+%% Begin document.
+\begin{document}
+\maketitle
+\clearpage
+{
+  \hypersetup{linkcolor=black}
+  \tableofcontents
+}
+\clearpage
+
+%% mdbook-latex-pdf begin
+
+\end{document}
