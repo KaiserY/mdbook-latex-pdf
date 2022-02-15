@@ -114,7 +114,7 @@ fn convert(converter: &Converter) -> String {
                 if level == HeadingLevel::H1 && converter.chap_offset == 0 {
                     writeln!(
                         writer,
-                        "\n\\addcontentsline{{toc}}{{chapter}}{{{}}}",
+                        "\\addcontentsline{{toc}}{{chapter}}{{{}}}",
                         header_value,
                     )
                     .unwrap();
@@ -235,7 +235,6 @@ fn convert(converter: &Converter) -> String {
                     r"\setlength{\LTright}{\LTleft}",
                     r"\begin{longtable}{!!!}",
                     r"\hline",
-                    r"\hline",
                 ];
 
                 table_buffer.new_line().push_lines(table_start).new_line();
@@ -252,8 +251,10 @@ fn convert(converter: &Converter) -> String {
 
                 let mut cols = String::new();
                 for _i in 0..cells {
-                    write!(cols, r"C{{{width}\textwidth}} ", width = 1. / cells as f64).unwrap();
+                    write!(cols, r"|C{{{width}\textwidth}} ", width = 1. / cells as f64).unwrap();
                 }
+
+                cols.push_str("|");
 
                 writer.push_str(&table_buffer.buffer().replace("!!!", &cols));
                 table_buffer.buffer().clear();
@@ -371,7 +372,7 @@ fn convert(converter: &Converter) -> String {
 
                 match lang {
                     CodeBlockKind::Indented => {
-                        writer.push_str(r"\begin{minted}").new_line();
+                        writer.push_str(r"\begin{minted}{text}").new_line();
                     }
                     CodeBlockKind::Fenced(lang) => {
                         writer.push_str(r"\begin{minted}{");
@@ -379,7 +380,7 @@ fn convert(converter: &Converter) -> String {
                         let lang = lang
                             .split_whitespace()
                             .next()
-                            .unwrap_or_else(|| lang.as_ref());
+                            .unwrap_or_else(|| "text");
 
                         writeln!(writer, "{}}}", lang).unwrap();
                     }
