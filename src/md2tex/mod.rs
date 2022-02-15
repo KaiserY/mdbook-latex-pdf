@@ -160,8 +160,7 @@ fn convert(converter: &Converter) -> String {
                 writer
                     .new_line()
                     .push_str(r"\end{shadedquotation}")
-                    .new_line()
-                    .push_str(r"~\\");
+                    .new_line();
 
                 event_stack.pop();
             }
@@ -392,11 +391,7 @@ fn convert(converter: &Converter) -> String {
             }
 
             Event::End(Tag::CodeBlock(_)) => {
-                writer
-                    .new_line()
-                    .push_str(r"\end{minted}")
-                    .new_line()
-                    .push_str(r"~\\");
+                writer.new_line().push_str(r"\end{minted}").new_line();
 
                 event_stack.pop();
             }
