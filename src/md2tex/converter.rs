@@ -70,6 +70,14 @@ impl<'a> Converter<'a> {
             None => output.push_str(&latex),
         }
 
+        // dirty hack
+        output = output
+            .replace(
+                "~\\\\\n\\begin{shadedquotation}",
+                "\n\\begin{shadedquotation}",
+            )
+            .replace("~\\\\\n\\begin{minted}", "\n\\begin{minted}");
+
         output
     }
 }

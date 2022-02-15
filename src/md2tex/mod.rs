@@ -49,6 +49,8 @@ fn convert(converter: &Converter) -> String {
 
     let mut buffer = String::new();
 
+    writer.new_line();
+
     for event in parser {
         match event {
             Event::Start(Tag::Heading(level, _, _)) => {
@@ -56,7 +58,6 @@ fn convert(converter: &Converter) -> String {
 
                 event_stack.push(EventType::Header);
 
-                writer.new_line();
                 match level {
                     HeadingLevel::H1 => {
                         if converter.chap_offset == 0 {
@@ -151,17 +152,10 @@ fn convert(converter: &Converter) -> String {
 
             Event::Start(Tag::BlockQuote) => {
                 event_stack.push(EventType::BlockQuote);
-                writer
-                    .new_line()
-                    .push_str(r"\begin{shadedquotation}")
-                    .new_line();
+                writer.push_str(r"\begin{shadedquotation}");
             }
             Event::End(Tag::BlockQuote) => {
-                writer
-                    .new_line()
-                    .push_str(r"\end{shadedquotation}")
-                    .new_line();
-
+                writer.push_str(r"\end{shadedquotation}");
                 event_stack.pop();
             }
 
@@ -169,7 +163,7 @@ fn convert(converter: &Converter) -> String {
                 writer.new_line().push_str(r"\begin{itemize}").new_line();
             }
             Event::End(Tag::List(None)) => {
-                writer.new_line().push_str(r"\end{itemize}").new_line();
+                writer.push_str(r"\end{itemize}").new_line();
             }
 
             Event::Start(Tag::List(Some(_))) => {
@@ -356,10 +350,6 @@ fn convert(converter: &Converter) -> String {
                     .push_str(assets_path.to_string_lossy().as_ref())
                     .push('}')
                     .new_line()
-                    // .push_str(r"\caption{")
-                    // .push_str(&*title)
-                    // .push('}')
-                    // .new_line()
                     .push_str(r"\end{figure}")
                     .new_line();
             }
