@@ -111,13 +111,18 @@ fn convert(converter: &Converter) -> String {
                 )
                 .unwrap();
 
-                if level == HeadingLevel::H1 && converter.chap_offset == 0 {
-                    writeln!(
-                        writer,
-                        "\\addcontentsline{{toc}}{{chapter}}{{{}}}",
-                        header_value,
-                    )
-                    .unwrap();
+                if converter.chap_offset == 0 {
+                    match level {
+                        HeadingLevel::H1 => {
+                            writeln!(
+                                writer,
+                                "\\addcontentsline{{toc}}{{chapter}}{{{}}}",
+                                header_value,
+                            )
+                            .unwrap();
+                        }
+                        _ => {}
+                    }
                 }
 
                 if level == HeadingLevel::H5 || level == HeadingLevel::H6 {
@@ -377,10 +382,7 @@ fn convert(converter: &Converter) -> String {
                     CodeBlockKind::Fenced(lang) => {
                         writer.push_str(r"\begin{minted}{");
                         let lang = re.replace(&lang, "");
-                        let lang = lang
-                            .split_whitespace()
-                            .next()
-                            .unwrap_or_else(|| "text");
+                        let lang = lang.split_whitespace().next().unwrap_or_else(|| "text");
 
                         writeln!(writer, "{}}}", lang).unwrap();
                     }
