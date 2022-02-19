@@ -15,6 +15,7 @@ Cargo.lock
 /target
 
 mdbook-src
+listings
 
 book.toml
 

@@ -71,13 +71,20 @@ impl<'a> Converter<'a> {
         }
 
         // dirty hack
-        output = output
-            .replace(
-                "~\\\\\n\\begin{shadedquotation}",
-                "\n\\begin{shadedquotation}",
-            )
-            .replace("~\\\\\n\\begin{minted}", "\n\\begin{minted}");
+        // TODO:
+        output = post_dirty_hack(output);
 
         output
     }
+}
+
+// dirty hack
+// TODO: better fix formating in convert fn
+fn post_dirty_hack(output: String) -> String {
+    output
+        .replace(
+            "~\\\\\n\\begin{shadedquotation}",
+            "\n\\begin{shadedquotation}",
+        )
+        .replace("~\\\\\n\\begin{minted}", "\n\\begin{minted}")
 }
