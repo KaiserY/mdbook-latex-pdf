@@ -2,14 +2,14 @@ mod converter;
 mod events;
 mod writer;
 
+use crate::rcdom::NodeData;
+use crate::rcdom::RcDom;
 pub use converter::Converter;
 use events::*;
 use html5ever::driver::ParseOpts;
 use html5ever::parse_document;
 use html5ever::tendril::TendrilSink;
 use inflector::cases::kebabcase::to_kebab_case;
-use markup5ever_rcdom::NodeData;
-use markup5ever_rcdom::RcDom;
 use pulldown_cmark::{CodeBlockKind, Event, HeadingLevel, Options, Parser, Tag};
 use regex::Regex;
 use std::default::Default;

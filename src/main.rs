@@ -1,4 +1,5 @@
 mod md2tex;
+mod rcdom;
 
 use mdbook::book::BookItem;
 use mdbook::config::Config as MdConfig;
