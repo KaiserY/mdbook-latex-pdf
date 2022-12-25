@@ -9,21 +9,21 @@ latex = []
 pdf = ["latex", "tectonic", "tectonic_bridge_core"]
 
 [dependencies]
-anyhow = "1.0.62"
-mdbook = "0.4.21"
+anyhow = "1.0.68"
+mdbook = "0.4.25"
 pulldown-cmark = "0.9.2"
-serde = { version = "1.0.144", features = ["derive"] }
-serde_derive = "1.0.144"
+serde = { version = "1.0.151", features = ["derive"] }
+serde_derive = "1.0.151"
 tectonic = { version = "0.9.0", optional = true }
-tectonic_bridge_core = { version = "0.3.0", optional = true }
-regex = "1.6.0"
-clap = "3.2.17"
+tectonic_bridge_core = { version = "0.3.1", optional = true }
+regex = "1.7.0"
+clap = "3.2.23"
 walkdir = "2.3.2"
 resvg = "0.23.0"
 Inflector = "0.11.4"
 usvg = "0.23.0"
 tiny-skia = "0.6"
-serde_json = "1.0.85"
+serde_json = "1.0.91"
 structopt = "0.3.26"
 html5ever = "0.26.0"
 markup5ever = "0.11.0"
