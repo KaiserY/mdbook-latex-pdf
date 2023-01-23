@@ -12,6 +12,7 @@ use html5ever::tendril::TendrilSink;
 use inflector::cases::kebabcase::to_kebab_case;
 use pulldown_cmark::{CodeBlockKind, Event, HeadingLevel, Options, Parser, Tag};
 use regex::Regex;
+use resvg::usvg_text_layout::{fontdb, TreeTextToPath};
 use std::default::Default;
 use std::fmt::Write;
 use std::fs;
@@ -581,11 +582,15 @@ pub fn svg2png(filename: &Path) -> Pixmap {
     opt.resources_dir = std::fs::canonicalize(&filename)
         .ok()
         .and_then(|p| p.parent().map(|p| p.to_path_buf()));
-    opt.fontdb.load_system_fonts();
-    let svg_data = std::fs::read(filename).unwrap();
-    let rtree = usvg::Tree::from_data(&svg_data, &opt.to_ref()).unwrap();
 
-    let pixmap_size = rtree.svg_node().size.to_screen_size();
+    let mut fontdb = fontdb::Database::new();
+    fontdb.load_system_fonts();
+
+    let svg_data = std::fs::read(filename).unwrap();
+    let mut rtree = usvg::Tree::from_data(&svg_data, &opt).unwrap();
+    rtree.convert_text(&fontdb, opt.keep_named_groups);
+
+    let pixmap_size = rtree.size.to_screen_size();
     let mut pixmap = tiny_skia::Pixmap::new(pixmap_size.width(), pixmap_size.height()).unwrap();
     resvg::render(
         &rtree,
