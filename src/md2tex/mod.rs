@@ -161,7 +161,7 @@ fn convert(converter: &Converter) -> String {
             }
 
             Event::Start(Tag::List(None)) => {
-                writer.new_line().push_str(r"\begin{itemize}").new_line();
+                writer.push_str(r"\begin{itemize}").new_line();
             }
             Event::End(Tag::List(None)) => {
                 writer.push_str(r"\end{itemize}").new_line();
@@ -382,7 +382,7 @@ fn convert(converter: &Converter) -> String {
             }
 
             Event::End(Tag::CodeBlock(_)) => {
-                writer.new_line().push_str(r"\end{minted}").new_line();
+                writer.push_str(r"\end{minted}").new_line();
 
                 event_stack.pop();
             }
@@ -588,7 +588,7 @@ pub fn svg2png(filename: &Path) -> Pixmap {
 
     let svg_data = std::fs::read(filename).unwrap();
     let mut rtree = usvg::Tree::from_data(&svg_data, &opt).unwrap();
-    rtree.convert_text(&fontdb, opt.keep_named_groups);
+    rtree.convert_text(&fontdb);
 
     let pixmap_size = rtree.size.to_screen_size();
     let mut pixmap = tiny_skia::Pixmap::new(pixmap_size.width(), pixmap_size.height()).unwrap();
