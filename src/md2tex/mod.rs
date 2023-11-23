@@ -12,7 +12,6 @@ use html5ever::tendril::TendrilSink;
 use inflector::cases::kebabcase::to_kebab_case;
 use pulldown_cmark::{CodeBlockKind, Event, HeadingLevel, Options, Parser, Tag};
 use regex::Regex;
-use resvg::usvg_text_layout::{fontdb, TreeTextToPath};
 use std::default::Default;
 use std::fmt::Write;
 use std::fs;
@@ -20,6 +19,7 @@ use std::path::{Path, PathBuf};
 use std::str::FromStr;
 use std::string::String;
 use tiny_skia::Pixmap;
+use usvg::{fontdb, TreeParsing, TreeTextToPath};
 use walkdir::WalkDir;
 use writer::TexWriter;
 
@@ -583,22 +583,21 @@ pub fn svg2png(filename: &Path) -> Pixmap {
         .ok()
         .and_then(|p| p.parent().map(|p| p.to_path_buf()));
 
+    let rtree = {
+        let opt = usvg::Options::default();
+
     let mut fontdb = fontdb::Database::new();
     fontdb.load_system_fonts();
 
     let svg_data = std::fs::read(filename).unwrap();
-    let mut rtree = usvg::Tree::from_data(&svg_data, &opt).unwrap();
-    rtree.convert_text(&fontdb);
+        let mut tree = usvg::Tree::from_data(&svg_data, &opt).unwrap();
+        tree.convert_text(&fontdb);
+        resvg::Tree::from_usvg(&tree)
+    };
 
-    let pixmap_size = rtree.size.to_screen_size();
+    let pixmap_size = rtree.size.to_int_size();
     let mut pixmap = tiny_skia::Pixmap::new(pixmap_size.width(), pixmap_size.height()).unwrap();
-    resvg::render(
-        &rtree,
-        usvg::FitTo::Original,
-        tiny_skia::Transform::default(),
-        pixmap.as_mut(),
-    )
-    .unwrap();
+    rtree.render(tiny_skia::Transform::default(), &mut pixmap.as_mut());
 
     pixmap
 }
